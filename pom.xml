@@ -46,16 +46,6 @@
 
 
 	<dependencies>
-		
-		<!--
-		 | Base64 content encoding
-		-->
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.10</version>
-		</dependency>
-		
 		<!--
 		 | Test environment
 		-->

@@ -26,11 +26,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * A data URI parser
@@ -400,7 +400,7 @@ public class DataUri {
 		final String finalContentDisposition = supportedValues.get(CONTENT_DISPOSITION_OPTION_NAME).isEmpty()
 			? null : supportedValues.get(CONTENT_DISPOSITION_OPTION_NAME);
 		final byte[] finalData = "base64".equalsIgnoreCase(contentEncoding)
-			? Base64.decodeBase64(data) : data.getBytes(charset);
+			? Base64.getDecoder().decode(data) : data.getBytes(charset);
 		
 		DataUri dataURIObject = new DataUri(
 			finalMimeType,
