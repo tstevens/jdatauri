@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import org.apache.commons.codec.binary.Base64;
 
 /**
@@ -59,18 +60,11 @@ public class DataUri {
 	}
 	
 	public DataUri(String mime, Charset charset, String filename, String contentDisposition, byte[] data) {
-		this.mime = mime;
+		this.mime = Objects.requireNonNull(mime, "`mime' must not be null");
 		this.charset = charset;
 		this.filename = filename;
 		this.contentDisposition = contentDisposition;
-		this.data = data;
-		
-		if (null == mime) {
-			throw new NullPointerException("`mime' must not be null");
-		}
-		if (null == data) {
-			throw new NullPointerException("`data' must not be null");
-		}
+		this.data = Objects.requireNonNull(data, "`data' must not be null");
 	}
 
 	
