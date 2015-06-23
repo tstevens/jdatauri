@@ -1,4 +1,4 @@
-package com.github.dosimeta.jdatauri.protocol.data;
+package com.github.ooxi.jdatauri.protocol.data;
 
 import java.io.IOException;
 import java.net.URL;
