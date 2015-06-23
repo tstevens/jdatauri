@@ -8,18 +8,17 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  */
 public class DataUrlConnection extends URLConnection {
 
-    private static final Charset UTF_8 = Charset.forName("UTF-8");
-
     private DataUri dataUri;
     
     public DataUrlConnection(URL url) {
         super(url);
-        dataUri = DataUri.parse(url.toString(), UTF_8);
+        dataUri = DataUri.parse(url.toString(), StandardCharsets.UTF_8);
     }
 
     @Override

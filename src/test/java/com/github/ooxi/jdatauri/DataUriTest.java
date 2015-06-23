@@ -23,6 +23,7 @@
 package com.github.ooxi.jdatauri;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,14 +33,13 @@ import org.junit.Test;
  */
 public class DataUriTest {
 	
-	private final Charset UTF_8 = Charset.forName("UTF-8");
 	
 	
 	
 	@Test
 	public void testSimple() {
 		final String test = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-		DataUri duri = DataUri.parse(test, UTF_8);
+		DataUri duri = DataUri.parse(test, StandardCharsets.UTF_8);
 		
 		Assert.assertEquals("image/gif", duri.getMime());
 		Assert.assertEquals(null, duri.getCharset());
@@ -95,7 +95,7 @@ public class DataUriTest {
 	@Test
 	public void testDisallowMimeNull() {
 		try {
-			new DataUri(null, UTF_8, new byte[] {});
+			new DataUri(null, StandardCharsets.UTF_8, new byte[] {});
 			Assert.fail("MIME must not be null");
 		} catch (NullPointerException e) {
 			// Pass
@@ -107,7 +107,7 @@ public class DataUriTest {
 	@Test
 	public void testDisallowDataNull() {
 		try {
-			new DataUri("text/plain", UTF_8, null);
+			new DataUri("text/plain", StandardCharsets.UTF_8, null);
 			Assert.fail("Data must not be null");
 		} catch (NullPointerException e) {
 			// Pass
@@ -119,7 +119,7 @@ public class DataUriTest {
 	@Test
 	public void testStartWithDataSchema() {
 		try {
-			DataUri.parse("dato:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==", UTF_8);
+			DataUri.parse("dato:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==", StandardCharsets.UTF_8);
 			Assert.fail("URI must start with data:");
 		} catch (IllegalArgumentException e) {
 			// Pass
@@ -131,7 +131,7 @@ public class DataUriTest {
 	@Test
 	public void testCaseInsensitivedataSchema() {
 		final String test = "DaTa:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-		DataUri duri = DataUri.parse(test, UTF_8);
+		DataUri duri = DataUri.parse(test, StandardCharsets.UTF_8);
 		
 		Assert.assertEquals("image/gif", duri.getMime());
 		Assert.assertEquals(null, duri.getCharset());
@@ -145,7 +145,7 @@ public class DataUriTest {
 	@Test
 	public void testEquals() {
 		final String test = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-		DataUri duri = DataUri.parse(test, UTF_8);
+		DataUri duri = DataUri.parse(test, StandardCharsets.UTF_8);
 		
 		DataUri equal = new DataUri("image/gif", null, new byte[] {71, 73, 70, 56, 57, 97, 1, 0, 1, 0, -128, 0, 0, -1, -1, -1, 0, 0, 0, 33, -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 2, 68, 1, 0, 59});
 		DataUri notEqual = new DataUri("image/gif", null, new byte[] {72, 73, 70, 56, 57, 97, 1, 0, 1, 0, -128, 0, 0, -1, -1, -1, 0, 0, 0, 33, -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 2, 68, 1, 0, 59});
@@ -163,7 +163,7 @@ public class DataUriTest {
 	@Test
 	public void testHashcode() {
 		final String test = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-		DataUri duri = DataUri.parse(test, UTF_8);
+		DataUri duri = DataUri.parse(test, StandardCharsets.UTF_8);
 		
 		DataUri equal = new DataUri("image/gif", null, new byte[] {71, 73, 70, 56, 57, 97, 1, 0, 1, 0, -128, 0, 0, -1, -1, -1, 0, 0, 0, 33, -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 2, 68, 1, 0, 59});
 		DataUri notEqual = new DataUri("image/gif", null, new byte[] {72, 73, 70, 56, 57, 97, 1, 0, 1, 0, -128, 0, 0, -1, -1, -1, 0, 0, 0, 33, -7, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 2, 68, 1, 0, 59});
@@ -181,7 +181,7 @@ public class DataUriTest {
 	@Test
 	public void testMustContainComma() {
 		try {
-			DataUri.parse("DaTa:image/gif;base64;R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==", UTF_8);
+			DataUri.parse("DaTa:image/gif;base64;R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==", StandardCharsets.UTF_8);
 			Assert.fail("URI must contain a comma");
 		} catch (IllegalArgumentException e) {
 			// Pass
@@ -193,7 +193,7 @@ public class DataUriTest {
 	@Test
 	public void testOptions() {
 		final String test = "data:image/gif;charset=utf-8;filename=test.txt;content-disposition=inline;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-		DataUri duri = DataUri.parse(test, UTF_8);
+		DataUri duri = DataUri.parse(test, StandardCharsets.UTF_8);
 		
 		Assert.assertEquals("image/gif", duri.getMime());
 		Assert.assertEquals(Charset.forName("UTF-8"), duri.getCharset());
